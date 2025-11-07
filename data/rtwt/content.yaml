@@ -1,6 +1,6 @@
 home:
-  image: 'images/rt_logo.jpg'
-  greetings: 'A Hugo Theme for Bloggers!'
+  image: 'images/pixil.png'
+  greetings: 'Shelf space for my stray ideas'
   text: 'The definitive, configurable, customizable, old fashioned rusty coloured theme for web writers and readers.'
 side:
   home:

@@ -1,4 +1,4 @@
-title = 'Rusty Typewriter'
+title = 'The Library of Sundry Thoughts'
 theme = 'rusty-typewriter'
 themesdir = 'themes/'
 
@@ -16,7 +16,7 @@ topic = 'topics'
 series = 'series'
 
 [params.author]
-name = 'Matheus Queiroz'
+name = 'Connor Glosser'
 
 [[menus.main]]
 name = 'Posts'
@@ -48,3 +48,14 @@ weight = 3
 [outputs]
  home = ["HTML","RSS", "SearchIndex"]
 # ===================================
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)']]
+[params]
+  math = true
