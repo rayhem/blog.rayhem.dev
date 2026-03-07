@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>MATLAB on The Library of Sundry Thoughts</title>
+    <link>http://localhost:1313/tags/matlab/</link>
+    <description>Recent content in MATLAB on The Library of Sundry Thoughts</description>
+    <generator>Hugo -- 0.152.2</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/matlab/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Things I Hate About MATLAB</title>
+      <link>http://localhost:1313/posts/2025/matlab_hate/</link>
+      <pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025/matlab_hate/</guid>
+      <description>&lt;h1 id=&#34;functions&#34;&gt;Functions&lt;/h1&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;p&gt;In their infinite wisdom, MathWorks has elected to treat a function&amp;rsquo;s &lt;em&gt;name&lt;/em&gt; as equivalent to a &lt;em&gt;function-evaluated-with-no-arguments&lt;/em&gt;. This is a parsing &lt;em&gt;nightmare&lt;/em&gt; that makes it impossible to do any sort of meaningful term rewriting, and it results in the following&amp;hellip;strange behavior:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-matlab&#34; data-lang=&#34;matlab&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; cd &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; cd
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Error using  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Incorrect dimensions &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To operate on each element of the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;matrix individually, use TIMES (&lt;span style=&#34;color:#f92672&#34;&gt;.*&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; elementwise multiplication.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; disp &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; disp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Error using disp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Too many output arguments.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; numel &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; numel
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Error using numel
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Not enough input arguments.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cd&lt;/code&gt; evaluates as &lt;code&gt;cd()&lt;/code&gt; and, as output, produces a character (row) vector of the current working directory. This attempts to multiply (inner product) the same vector from the second &lt;code&gt;cd&lt;/code&gt; which is also a row, producing the listed error. Also, what even &lt;em&gt;is&lt;/em&gt; an inner product of strings?&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;disp&lt;/code&gt; produces no outputs. Multiplying values requires there to &lt;em&gt;be&lt;/em&gt; a value, hence when the interpreter tries to store the output of &lt;code&gt;disp&lt;/code&gt; it can&amp;rsquo;t and thus errors.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;numel&lt;/code&gt; requires at least one input. When the interpreter tries to evaluate the first &lt;code&gt;numel&lt;/code&gt; it simply can&amp;rsquo;t and throws this error.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All of this makes sense if you understand the rules of functions and their evaluation order, but, assuredly &lt;em&gt;none of this is what any reasonable user actually wanted&lt;/em&gt;. Reasonable users want &amp;ldquo;Your expression sucks because times (*) does not accept functions.&amp;rdquo; Unfortunately, this will &lt;em&gt;never be fixed&lt;/em&gt; because of MATLAB&amp;rsquo;s attitude towards legacy designs.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

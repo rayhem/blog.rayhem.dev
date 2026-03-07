@@ -1,0 +1,25 @@
+theme = "PaperMod"
+languageCode = "en-us"
+title = "The Library of Sundry Thoughts"
+baseURL = "https://blog.rayhem.dev/"
+
+[params]
+  defaultTheme = "auto"   # follows system light/dark
+  ShowReadingTime = true
+  ShowPostNavLinks = false
+  ShowBreadCrumbs = true
+  robotsNoIndex = true
+
+[params.homeInfoParams]
+  Title = "Shelf space for my stray ideas"
+  Content = "Welcome!"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.goldmark.extensions.passthrough]
+  enable = true
+
+[markup.goldmark.extensions.passthrough.delimiters]
+  block = [["$$", "$$"]]
+  inline = [["$", "$"]]

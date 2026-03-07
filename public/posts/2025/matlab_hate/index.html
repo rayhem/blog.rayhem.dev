@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Things I Hate About MATLAB | The Library of Sundry Thoughts</title>
+<meta name="keywords" content="rant, software, MATLAB">
+<meta name="description" content="Functions
+Evaluation
+In their infinite wisdom, MathWorks has elected to treat a function&rsquo;s name as equivalent to a function-evaluated-with-no-arguments. This is a parsing nightmare that makes it impossible to do any sort of meaningful term rewriting, and it results in the following&hellip;strange behavior:
+&gt;&gt; cd * cd
+Error using  *
+Incorrect dimensions for matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To operate on each element of the
+matrix individually, use TIMES (.*) for elementwise multiplication.
+
+&gt;&gt; disp * disp
+Error using disp
+Too many output arguments.
+
+&gt;&gt; numel * numel
+Error using numel
+Not enough input arguments.
+
+cd evaluates as cd() and, as output, produces a character (row) vector of the current working directory. This attempts to multiply (inner product) the same vector from the second cd which is also a row, producing the listed error. Also, what even is an inner product of strings?
+disp produces no outputs. Multiplying values requires there to be a value, hence when the interpreter tries to store the output of disp it can&rsquo;t and thus errors.
+numel requires at least one input. When the interpreter tries to evaluate the first numel it simply can&rsquo;t and throws this error.
+
+All of this makes sense if you understand the rules of functions and their evaluation order, but, assuredly none of this is what any reasonable user actually wanted. Reasonable users want &ldquo;Your expression sucks because times (*) does not accept functions.&rdquo; Unfortunately, this will never be fixed because of MATLAB&rsquo;s attitude towards legacy designs.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025/matlab_hate/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025/matlab_hate/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="The Library of Sundry Thoughts (Alt + H)">The Library of Sundry Thoughts</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Things I Hate About MATLAB
+    </h1>
+    <div class="post-meta"><span title='2025-11-07 00:00:00 +0000 UTC'>November 7, 2025</span>&nbsp;·&nbsp;<span>2 min</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="functions">Functions<a hidden class="anchor" aria-hidden="true" href="#functions">#</a></h1>
+<h2 id="evaluation">Evaluation<a hidden class="anchor" aria-hidden="true" href="#evaluation">#</a></h2>
+<p>In their infinite wisdom, MathWorks has elected to treat a function&rsquo;s <em>name</em> as equivalent to a <em>function-evaluated-with-no-arguments</em>. This is a parsing <em>nightmare</em> that makes it impossible to do any sort of meaningful term rewriting, and it results in the following&hellip;strange behavior:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-matlab" data-lang="matlab"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;</span> cd <span style="color:#f92672">*</span> cd
+</span></span><span style="display:flex;"><span>Error using  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>Incorrect dimensions <span style="color:#66d9ef">for</span> matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To operate on each element of the
+</span></span><span style="display:flex;"><span>matrix individually, use TIMES (<span style="color:#f92672">.*</span>) <span style="color:#66d9ef">for</span> elementwise multiplication.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;</span> disp <span style="color:#f92672">*</span> disp
+</span></span><span style="display:flex;"><span>Error using disp
+</span></span><span style="display:flex;"><span>Too many output arguments.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;</span> numel <span style="color:#f92672">*</span> numel
+</span></span><span style="display:flex;"><span>Error using numel
+</span></span><span style="display:flex;"><span>Not enough input arguments.
+</span></span></code></pre></div><ul>
+<li><code>cd</code> evaluates as <code>cd()</code> and, as output, produces a character (row) vector of the current working directory. This attempts to multiply (inner product) the same vector from the second <code>cd</code> which is also a row, producing the listed error. Also, what even <em>is</em> an inner product of strings?</li>
+<li><code>disp</code> produces no outputs. Multiplying values requires there to <em>be</em> a value, hence when the interpreter tries to store the output of <code>disp</code> it can&rsquo;t and thus errors.</li>
+<li><code>numel</code> requires at least one input. When the interpreter tries to evaluate the first <code>numel</code> it simply can&rsquo;t and throws this error.</li>
+</ul>
+<p>All of this makes sense if you understand the rules of functions and their evaluation order, but, assuredly <em>none of this is what any reasonable user actually wanted</em>. Reasonable users want &ldquo;Your expression sucks because times (*) does not accept functions.&rdquo; Unfortunately, this will <em>never be fixed</em> because of MATLAB&rsquo;s attitude towards legacy designs.</p>
+<h1 id="data-types">Data types<a hidden class="anchor" aria-hidden="true" href="#data-types">#</a></h1>
+<h2 id="typing">Typing<a hidden class="anchor" aria-hidden="true" href="#typing">#</a></h2>
+<ul>
+<li>Dynamic typing sucks.</li>
+<li>Weak typing sucks.</li>
+</ul>
+<h2 id="matrices">Matrices<a hidden class="anchor" aria-hidden="true" href="#matrices">#</a></h2>
+<h3 id="singleton-as-scalar">Singleton-as-scalar<a hidden class="anchor" aria-hidden="true" href="#singleton-as-scalar">#</a></h3>
+<p>MATLAB treats <em>everything</em> as a matrix. So <code>3</code> is really <code>3: double(1, 1)</code>. This makes for some interesting gymnastics when you consider <code>3 * ones(2)</code>: this is a <code>1-by-1</code> matrix times a <code>2-by-2</code> matrix which violates normal matrix multiplication rules. MATLAB clearly enjoys exceptional behaviors and special rules.</p>
+<h2 id="row-and-column-vectors">Row and column vectors<a hidden class="anchor" aria-hidden="true" href="#row-and-column-vectors">#</a></h2>
+<p>There is no such goddamn thing as a row and column vector. There are <em>vectors</em>. There are operations defined on <em>vectors</em>. Nothing in math requires a vector to have a &ldquo;transpose&rdquo;—it has a <em>dual</em>, but this is not the same thing.</p>
+<h1 id="ternary-if">Ternary-if<a hidden class="anchor" aria-hidden="true" href="#ternary-if">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span>iif  = @(varargin) varargin{<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>find([varargin{<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">2</span>:<span style="color:#66d9ef">end</span>}], <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;first&#39;</span>)}();
+</span></span></code></pre></div><p>Why does this exist?</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/rant/">Rant</a></li>
+      <li><a href="http://localhost:1313/tags/software/">Software</a></li>
+      <li><a href="http://localhost:1313/tags/matlab/">MATLAB</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">The Library of Sundry Thoughts</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
