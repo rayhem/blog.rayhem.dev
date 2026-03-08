@@ -1,8 +1,9 @@
-+++
-title = 'About'
-date = '2025-11-07'
-type = 'blank'
-+++
+---
+date: '2025-11-07'
+type: 'blank'
+ShowReadingTime: false
+ShowDate: false
+---
 
 > Who in the world am I? Ah, that's the great puzzle. 
 >
@@ -16,9 +17,3 @@ Thanks for dropping by! Around the Internet, I go by rayhem and it's very nice t
 
 I honestly don't know! People tell me I have interesting thoughts and articulate them well, so I figured I could stand to write them down (mostly for my own clarity, but also as something of a preservative journal and maybe even an art piece).
  
-\[
-\begin{aligned}
-KL(\hat{y} || y) &= \sum_{c=1}^{M}\hat{y}_c \log{\frac{\hat{y}_c}{y_c}} \\
-JS(\hat{y} || y) &= \frac{1}{2}(KL(y||\frac{y+\hat{y}}{2}) + KL(\hat{y}||\frac{y+\hat{y}}{2}))
-\end{aligned}
-\]

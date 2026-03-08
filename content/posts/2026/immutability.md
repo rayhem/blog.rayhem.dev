@@ -50,7 +50,7 @@ $|B_\mathbf{Q}| < |B_\mathbf{P}|$ regardless of component count.
 ## Argument
 
 $B_\mathbf{P}^\mathrm{(mut)} \neq \varnothing$ empirically --- the existence of data races, aliasing bugs, and temporal coupling defects in real systems is well-documented.
-Since $B_\mathbf{Q} \subseteq B_\mathbf{P}^\mathrm{(other)}$, $B_\mathbf{P}^\mathrm{(other)} = B_\mathbf{P} / B_\mathbf{P}^\mathrm{(mut)}$, and $B_\mathbf{P}^\mathrm{(mut)} \neq \varnothing $ (i.e. $|B_\mathbf{P}^\mathrm{(mut)}| > 0$), it follows that
+Since $B_\mathbf{Q} \subseteq B_\mathbf{P}^\mathrm{(other)}$, $B_\mathbf{P}^\mathrm{(other)} = B_\mathbf{P} \setminus B_\mathbf{P}^\mathrm{(mut)}$, and $B_\mathbf{P}^\mathrm{(mut)} \neq \varnothing $ (i.e. $|B_\mathbf{P}^\mathrm{(mut)}| > 0$), it follows that
 
 $$
 \begin{equation}
@@ -100,7 +100,7 @@ from which it follows $|S_g| < |S_f|$ whenever $\mathrm{deps}(f) \neq \varnothin
 
 $$
 \begin{equation}
-E[\text{bugs in Q}] \propto \sum_{g \in \mathbf{Q}} \left|S_g\right| < \sum_{f \in \mathbf{P}} \left|S_f\right| \propto E[\text{bugs in P}].
+E[\text{bugs in \textbf{Q}}] \propto \sum_{g \in \mathbf{Q}} \left|S_g\right| < \sum_{f \in \mathbf{P}} \left|S_f\right| \propto E[\text{bugs in \textbf{P}}].
 \end{equation}
 $$
 
