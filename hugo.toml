@@ -1,6 +1,6 @@
 theme = "PaperMod"
 languageCode = "en-us"
-title = "The Library of Sundry Thoughts"
+title = "📖 The Library of Sundry Thoughts"
 baseURL = "https://blog.rayhem.dev/"
 
 [params]
