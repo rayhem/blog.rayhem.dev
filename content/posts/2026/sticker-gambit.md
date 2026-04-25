@@ -1,6 +1,8 @@
 ---
 date: '2026-04-24T15:00:20-04:00'
 title: 'The Sticker Gambit'
+aliases:                                                                                                                                                                                                                                        
+  - /stickers                                                                                                                                                                                                                                   
 ---
 
 # The Rules
